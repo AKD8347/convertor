@@ -1,0 +1,40 @@
+body {
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+table {
+  tr {
+    &:last-child {
+      td, th {
+        border-bottom: none;
+      }
+    }
+  }
+  td, th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E6E7F2;
+  }
+  th {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: left;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #9597B0;
+  }
+  td {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 130%;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #343647;
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+}

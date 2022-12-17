@@ -1,26 +1,55 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <router-view v-slot="{ Component }">
+      <transition name="el-fade-in-linear" mode="out-in">
+        <component
+            v-if="!loading"
+            :is="Component"
+        />
+        <div v-else
+             v-loading="true"
+             class="app__loading"
+        />
+      </transition>
+    </router-view>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import useAppStore from '@/store/app.store'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  name: 'app',
+  setup() {
+    return {
+      appStore: useAppStore()
+    }
+  },
+  data() {
+    return {
+      loading: true
+    }
+  },
+  computed: {
+    rate() {
+      if (this.$route.name === 'convert') {
+        return this.$route.params.from
+      }
+      return 'USD'
+    }
+  },
+  mounted() {
+    this.$currencies.getRates(this.rate)
+        .then(() => this.loading = false)
+    window.addEventListener('resize', this.appStore.setWindowWidth)
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped lang="scss">
+.app {
+  &__loading {
+    height: 100vh;
+  }
 }
 </style>
